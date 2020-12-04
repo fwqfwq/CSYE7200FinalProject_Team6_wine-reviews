@@ -4,10 +4,10 @@ import scala.collection.mutable
 import scala.io.Source
 import scala.util.Try
 
-case class Wine(country: String, format: Format, production: Production,
-                reviews: Reviews, director: Principal, actor1: Principal,
-                actor2: Principal, actor3: Principal, genres: Seq[String],
-                plotKeywords: Seq[String], imdb: String)
+case class Wine(country: String, description: String, designation: String,
+                points: Integer, price: Double, province: String,
+                region_1: String, region_2: String, variety: String,
+                winery: String)
 //country,description,designation,points,price,province,
 // region_1,region_2,taster_name,taster_twitter_handle,title,variety,winery
 /**
