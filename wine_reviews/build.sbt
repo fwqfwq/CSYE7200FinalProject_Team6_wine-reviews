@@ -14,5 +14,6 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-sql" % "2.4.4",
   "org.apache.spark" %% "spark-streaming" % "2.4.0" % "provided",
   "org.apache.spark" %% "spark-mllib" % "2.4.0" % "provided",
-  "org.apache.spark" %% "spark-graphx" % "2.4.3"
+  "org.apache.spark" %% "spark-graphx" % "2.4.3",
+  "com.johnsnowlabs.nlp" %% "spark-nlp" % "2.6.4" % "Test"
 )

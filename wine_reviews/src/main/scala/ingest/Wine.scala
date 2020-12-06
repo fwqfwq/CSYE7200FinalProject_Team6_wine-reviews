@@ -8,7 +8,7 @@ import scala.io.Source
 import scala.util.Try
 
 
-case class Wine(country: String, description: String, designation: String,
+case class Wine(id: Integer, country: String, description: String, designation: String,
                 points: Integer, price: Double, province: String,
                 region_1: String, region_2: String, variety: String,
                 winery: String)
@@ -18,7 +18,8 @@ case class Wine(country: String, description: String, designation: String,
 object Wine extends App{
 
   lazy val schema: StructType = new StructType(
-    Array(StructField("country", StringType, true),
+    Array(StructField("id", IntegerType, true),
+    StructField("country", StringType, true),
     StructField("description", StringType, true),
     StructField("designation", StringType, true),
     StructField("points", IntegerType, true),
@@ -39,36 +40,36 @@ object Wine extends App{
       .master("local[*]")
       .getOrCreate()
   }
-  lazy val wineDF = spark.read.option("header", true).schema(schema).csv("resources/winemag-data-130k-v2.csv")
+//  lazy val wineDF = spark.read.option("header", true).schema(schema).csv("resources/winemag-data-130k-v2.csv")
 
   /**
   * Get all the wine data of DataFrame type
   * @return       DataFrame contain all the information
   */
-  def getWineDF = wineDF
+//  def getWineDF = wineDF
 
-//  import spark.implicits._
-//  object IngestWine extends Ingest{
-//    def ingest(srcDir: String, schema: StructType)(implicit spark: SparkSession): Dataset[Wine] = {
-//      spark.read
-//        .option("header", "true")
-//        .option("inferSchema", "false")
-//        .schema(schema)
-//        .format("csv")
-//        .load(srcDir)
-//        .as[Wine]
-//    }
-//
-//    def filterWines(ds: Dataset[Wine]): Dataset[Wine] = {
-//      ds.filter(d => (d.points != 0))
-//    }
-//  }
-//
-//  //object IngestWine extends IngestWine
-//
-//  val df1 = IngestWine.ingest("resources/winemag-data_first150k.csv", schema)(spark)
-//  val df2 = IngestWine.ingest("resouces/winemag-data-130k-v2.csv", schema)(spark)
-//  df1.show()
-//  df2.show()
+  import spark.implicits._
+  object IngestWine extends Ingest{
+    def ingest(srcDir: String, schema: StructType)(implicit spark: SparkSession): Dataset[Wine] = {
+      spark.read
+        .option("header", "true")
+        .option("inferSchema", "false")
+        .schema(schema)
+        .format("csv")
+        .load(srcDir)
+        .as[Wine]
+    }
+
+    def filterWines(ds: Dataset[Wine]): Dataset[Wine] = {
+      ds.filter(d => (d.points != 0))
+    }
+  }
+
+  //object IngestWine extends IngestWine
+
+  val df1 = IngestWine.ingest("src/main/resources/winemag-data_first150k.csv", schema)(spark)
+  val df2 = IngestWine.ingest("src/main/resources/winemag-data-130k-v2.csv", schema)(spark)
+  df1.show()
+  df2.show()
 }
 
