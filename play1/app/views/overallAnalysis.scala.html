@@ -1,0 +1,12 @@
+@(results : Seq[String])
+@main("OverAllAnalysis"){
+<div class="center">
+    <a  href="@routes.HomeController.backToMain" class="back">Back</a>
+    <h2>Here is our analysis :</h2>
+    <ul>
+        @for(result <- results){
+        <li>@result</li>
+        }
+    </ul>
+</div>
+}
