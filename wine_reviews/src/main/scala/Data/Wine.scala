@@ -2,6 +2,7 @@ package Data
 
 import java.io.StringReader
 
+import Analysis.Analysis.{spark, wineDF}
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.types._
 import Overview._
@@ -21,7 +22,7 @@ case class Wine(id: Integer, country: String, description: String, designation: 
                 winery: String)
 
 
-object Wine extends App{
+object Wine {
 
   /* Lazily create a SparkSession running locally */
   lazy val spark = {
@@ -59,10 +60,10 @@ object Wine extends App{
   // Drop the first unrelated 'id' feature
   val wineDF = wine.drop("id")
   // Output
-  report(wineDF)
+//  report(wineDF)
   // Persistence
   val dfPersist = wineDF.persist(StorageLevel.MEMORY_ONLY_SER)
-  dfPersist.show(false)
+//  dfPersist.show(false)
 
 
   /**

@@ -1,11 +1,13 @@
 package Analysis
 
-import Data.Wine.{getWineDF, getSpark}
+import Data.Overview
+import Data.Wine.{getSpark, getWineDF}
 
-object Analysis extends App{
+object Analysis extends App {
 
   val wineDF = getWineDF
   val spark = getSpark
+  Overview.report(wineDF)
 
   // Function for select
   def sqlAvg = "SELECT %s, AVG(%s) AS %s FROM %s GROUP BY %s ORDER BY %s DESC"
@@ -19,6 +21,6 @@ object Analysis extends App{
   println("Country Average Price")
   sqlExec(Array("country", "price", "AvgPrice", "wine", "country", "AvgPrice"))
   println("Country Average Point")
-  sqlExec(Array("country", "point", "AvgPoint", "wine", "country", "AvgPoint"))
+  sqlExec(Array("country", "points", "AvgPoint", "wine", "country", "AvgPoint"))
 
 }

@@ -4,7 +4,7 @@ import org.apache.spark.sql
 import org.apache.spark.sql.functions._
 
 /* Get a overview of dataset */
-object Overview extends App {
+object Overview {
 
   def report(df: sql.DataFrame): Unit ={
     println("Report for dataset")
