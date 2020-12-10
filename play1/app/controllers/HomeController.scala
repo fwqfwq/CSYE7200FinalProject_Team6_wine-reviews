@@ -1,9 +1,9 @@
 package controllers
 
 import javax.inject._
+import models.wine_reviews.src.main.scala.Data.dataPredict
 import play.api._
 import play.api.mvc._
-import models.dataPredict
 /**
  * This controller creates an `Action` to handle HTTP requests to the
  * application's home page.
