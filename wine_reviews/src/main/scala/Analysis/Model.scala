@@ -4,7 +4,7 @@ import Data.Wine
 import org.apache.spark
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.evaluation.RegressionEvaluator
-import org.apache.spark.ml.feature.{FeatureHasher, HashingTF, IDF, NGram, OneHotEncoderEstimator, PCA, StopWordsRemover, StringIndexer, Tokenizer, VectorAssembler}
+import org.apache.spark.ml.feature.{FeatureHasher, HashingTF, IDF, NGram, OneHotEncoderEstimator, PCA, StopWordsRemover, StringIndexer, Tokenizer, VectorAssembler, Word2Vec}
 import org.apache.spark.ml.linalg.Vector
 import org.apache.spark.ml.regression.{RandomForestRegressionModel, RandomForestRegressor}
 import org.apache.spark.sql.functions._
@@ -15,7 +15,7 @@ import scala.util.{Success, Try}
 
 object Model extends App {
 
-  val df = Wine.getWineDF
+  val df = Wine.getWineDF.na.drop
 
 //  val countryIndexer = new StringIndexer().setInputCol("country").setOutputCol("countryIndexted")
 //  val designationIndexer = new StringIndexer().setInputCol("designation").setOutputCol("designationIndexted")
@@ -66,32 +66,51 @@ object Model extends App {
   val featurizedData = hashingTF.transform(remover).drop("description", "words", "filtered")
 //  featurizedData.show
 
-//  val idf = new IDF().setInputCol("rawFeatures").setOutputCol("descFeatures")
-//  val idfModel = idf.fit(featurizedData)
+  val idf = new IDF().setInputCol("rawFeatures").setOutputCol("desc")
+  val idfModel = idf.fit(featurizedData)
+  val rescaledData = idfModel.transform(featurizedData)
+  rescaledData.show
+
+//  val word2Vec = new Word2Vec()
+//    .setInputCol("filtered")
+//    .setOutputCol("desc")
+//    .setVectorSize(3)
+//    .setMinCount(0)
+//  val model = word2Vec.fit(remover)
 //
-//  val rescaledData = idfModel.transform(featurizedData)
-//  rescaledData.show
+//  val vector = model.transform(remover).drop("description", "words", "filtered")
+//  vector.show
 
 //  //PCA
 //  val pca = new PCA()
 //    .setInputCol("features")
 //    .setOutputCol("pcaFeatures")
 //    .setK(10)
-//    .fit(featurizedData)
+//    .fit(vector)
 //
-//  val result = pca.transform(featurizedData)
+//  val result = pca.transform(vector)
 //  result.show
 
 
 
-  val Array(train, test) = featurized.randomSplit(Array(0.8, 0.2))
+  val Array(train, test) = rescaledData.randomSplit(Array(0.8, 0.2))
 
   val rf = new RandomForestRegressor()
     .setLabelCol("points")
+    .setFeaturesCol("features")
+    .setFeaturesCol("price")
+    .setFeaturesCol("desc")
     .fit(train)
 
   val predictions = rf.transform(test)
+  predictions.show
 
-  predictions.select("prediction", "points", "predFeatures").show
+  val evaluator = new RegressionEvaluator()
+    .setLabelCol("points")
+    .setPredictionCol("prediction")
+    .setMetricName("rmse")
+  val rmse = evaluator.evaluate(predictions)
+  println(s"Root Mean Squared Error (RMSE) on test data = $rmse")
+
 
 }
