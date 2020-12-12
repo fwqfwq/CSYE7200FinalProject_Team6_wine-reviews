@@ -58,17 +58,12 @@ object Schema3 {
   // Schema for preproc2 data
   lazy val schema3_2: StructType = new StructType(
     Array(StructField("country", StringType, true),
-      StructField("description", StringType, true),
-      StructField("designation", StringType, true),
       StructField("points", IntegerType, true),
       StructField("price", DoubleType, true),
       StructField("province", StringType, true),
       StructField("region_1", StringType, true),
       StructField("title", StringType, true),
-      StructField("variety", StringType, true),
-      StructField("winery", StringType, true))
-  )
-
-
+      StructField("variety", StringType, true))
+  )//country,points,price,province,region_1,title,variety
 
 }

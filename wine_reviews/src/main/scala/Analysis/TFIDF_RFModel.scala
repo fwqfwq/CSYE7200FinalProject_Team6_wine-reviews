@@ -2,6 +2,7 @@ package Analysis
 
 
 import Data.Wine.{getSpark, getWineDF}
+import org.apache.spark.ml.evaluation.RegressionEvaluator
 import org.apache.spark.ml.feature.{IDFModel, PCA, PCAModel}
 import org.apache.spark.ml.regression.{RandomForestRegressionModel, RandomForestRegressor}
 import org.apache.spark.sql.SparkSession
@@ -97,11 +98,25 @@ object TFIDF_RFModel {
     .setLabelCol("points")
     .fit(train)
 
+
+
   val predictions: DataFrame = rf.transform(test)
 
 //  predictions.select("prediction", "points", "predFeatures").show
   predictions.show()
 
+  // Select (prediction, true label) and compute test error.
+  val evaluator = new RegressionEvaluator()
+    .setLabelCol("points")
+    .setPredictionCol("prediction")
+    .setMetricName("mae")
+
+  val mse = evaluator.evaluate(predictions)
+  println("Mean Squared Error (MSE) on test data = " + mse)
+
+  predictions.summary()
+
+  rf.save("rf.model")
 
   /**
    * Output.

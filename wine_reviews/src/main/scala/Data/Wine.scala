@@ -40,7 +40,7 @@ object Wine {
   val preprocType: Array[String] = Array("1", "DP", "2")
 
   // !Select everytime
-  val preprocc: String = preprocType(1)
+  val preprocc: String = preprocType(2)
 
   lazy val wineDF: DataFrame =
   /* Check file first */
