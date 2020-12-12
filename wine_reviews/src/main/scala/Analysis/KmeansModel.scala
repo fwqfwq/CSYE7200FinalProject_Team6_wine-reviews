@@ -1,11 +1,10 @@
 package Analysis
 
-import Analysis.TFIDF_RFModel.rescaledData
 import Data.Wine.{getSpark, getWineDF}
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.ClusteringEvaluator
-import org.apache.spark.ml.feature.{FeatureHasher, OneHotEncoder, OneHotEncoderEstimator, PCA, PCAModel, StringIndexer, Word2Vec}
-import org.apache.spark.sql.DataFrame
+import org.apache.spark.ml.feature.FeatureHasher
+
 
 object KmeansModel extends App {
 
@@ -18,7 +17,7 @@ object KmeansModel extends App {
     .setInputCols("country", "price", "province", "region_1", "title", "variety")
     .setOutputCol("features")
 
-  val featurized = hasher.transform(df).drop("country", "price", "province", "region_1", "title", "variety")
+  val featurized = hasher.transform(df)
   println("After Harsher: ")
   featurized.show()
 //  featurized.take(10).foreach(println)
@@ -26,7 +25,7 @@ object KmeansModel extends App {
 
 
 //   Train a k-means model
-  val kmeans = new KMeans().setK(12).setSeed(1L)
+  val kmeans = new KMeans().setK(12).setSeed(1L).setFeaturesCol("features")
   val model = kmeans.fit(featurized)
 
   val predictions = model.transform(featurized)
@@ -40,23 +39,13 @@ object KmeansModel extends App {
 //  println("Cluster Centers: ")
 //  model.clusterCenters.take(10).foreach(println)
 
-  model.save("kmeans.model")
-  println("kmeans model saved")
+  // Save KMeans model
+//  model.save("kmeans.model")
+//  println("kmeans model saved")
 
 
-  val loadModel = ClusteringEvaluator.load("kmeans.model")
+  // Save to JSON file
+  predictions.coalesce(1).write.json("csvdata/kmJSON")
+  println("kmeans predictions saved")
 
-//  def s2index(cols: Array[String]): DataFrame ={
-//
-//    for (col <- cols) {
-//      val indexer = new StringIndexer()
-//      .setInputCol(col)
-//      .setOutputCol("r" + col)
-//      .fit(df)
-//
-//      val indexed: DataFrame = indexer.transform(df)
-//    }
-//
-//    indexed
-//  }
 }

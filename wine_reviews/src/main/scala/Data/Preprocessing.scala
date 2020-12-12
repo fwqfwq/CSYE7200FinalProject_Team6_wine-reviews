@@ -66,13 +66,5 @@ object Preprocessing {
     temp2
   }
 
-  /* For now no implementation */
-  def moveRenameFile(source: String, destination: String): Unit = {
-    val path = Files.move(
-      Paths.get(source),
-      Paths.get(destination),
-      StandardCopyOption.REPLACE_EXISTING
-    )
-  }
 
 }

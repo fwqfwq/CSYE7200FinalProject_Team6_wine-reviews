@@ -8,15 +8,22 @@ Team 6:
 ---
 
 1. The dataset consisting of 2 csv file is included in the repository 'src/main/resources'. 
-2. Main functions:   
-    * Search -- SQL   
-    * Get trendy trait from description -- TF-IDF  
-    * Get points(or price) prediction from TF-IDF -- RF  
-    * Without description, build recommendation system -- ?K-Means  
+2. Main functions:    
+    * SQL Analysis -- 'Analysis/SQLAnalysis' (not finished yet)    
+    * TF-IDF & RF Models for points prediction from description   
+    * K-Means Models for recommendation by input features    
+    * ! Some functions are realised from Play Framework (another directory 'wine_play')  
     
 3. Main functions are in 'src/main/scala':   
-    >'Data':                                             
-    >>'Read': for reading csv files into RDD  
-    >>'Sql':  
-    >'Analysis':
+    1. 'Wine' for Data import or reload from generated-processed csv files  
+    2. 'Overview' to get description and might get a unique-value-counting function (need to undo the annotations)   
+    3. 'Preprocessing', drop na, and related to 'WriteCSV'   
     
+4. Main functions are in 'src/main/scala':   
+    1. 'Run' to call functions in 'TFIDF_RFModel'
+    2. 'SQLAnalysis'
+    3. 'KMeansModels'
+   
+5. Other supportings: 
+    Generated data files (csv & json) in 'generatedData'
+    ! Some data files due to a too-large size have been removed, which also could been done again  

@@ -5,7 +5,6 @@ import Data.Schema3._
 import Data.WriteCSV.checkFilePath
 import org.apache.spark.sql.{DataFrame, Row, SparkSession}
 import org.apache.spark.sql.types._
-import Overview._
 //import org.apache.spark.storage.StorageLevel
 
 
@@ -37,10 +36,16 @@ object Wine {
   // !Defined in object Schema3
 
   /* Preprocess types, see more in object Preprocessing */
-  val preprocType: Array[String] = Array("1", "DP", "2")
 
-  // !Select everytime
+  /**
+   * 1 -- basically no use
+   * DP -- Description & Points, for TF_IDF
+   * 2 -- The rest features, for KMeans
+   * Set the number to 'preprocc', switching functions for different one.
+   */
+  val preprocType: Array[String] = Array("1", "DP", "2")
   val preprocc: String = preprocType(2)
+
 
   lazy val wineDF: DataFrame =
   /* Check file first */
@@ -65,7 +70,7 @@ object Wine {
       //report(wine2, spark)
 
       /* Rpreproc() doing the preprocessing, return a DataFrame */
-      //preproc1(wine2)   // a rough way
+      //preproc1(wine2)   // a rough way for switching..
       //preprocDP(wine2)
       preproc2(wine2)
     }

@@ -10,6 +10,8 @@ import org.apache.spark.sql.Row
 
 object Run extends App {
 
+  // Run object only for TF-IDF
+
   /* Get SparkSession and DataFrame */
   val spark = getSpark
 
@@ -24,33 +26,5 @@ object Run extends App {
 
   jsonDF.show(10)
 
-
-//
-//  df.select("descFeatures").take(10).foreach(println)
-//  println()
-//  df.select("rawFeatures").take(10).foreach(println)
-//  val newDF = df.select("descFeatures")
-
-
-
-
-
-
-//  val df = wineDF.na.drop()
-//  //println(df.count())   // 280839 non-null value
-//  df.show(10)
-
-//  // Split the train and the test
-//  val Array(train, test) = df.randomSplit(Array(0.7, 0.3))
-//
-//  // Create the RF regressor
-//  val rf = new RandomForestRegressor()
-//    .setLabelCol("points")
-//    .fit(train)
-//
-//  val predictions = rf.transform(test)
-//
-//  predictions.select("prediction", "points", "predFeatures").show
-//
 
 }
