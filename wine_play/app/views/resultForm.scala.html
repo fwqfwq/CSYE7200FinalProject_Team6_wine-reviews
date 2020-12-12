@@ -1,0 +1,12 @@
+@(results : Seq[String])
+@main("resultForm"){
+<div class="center">
+    <a  href="@routes.HomeController.predict" class="back">Back</a>
+<h2>Predict Result:</h2>
+<ul>
+    @for(result <- results){s
+    <li>@result</li>
+    }
+</ul>
+</div>
+}

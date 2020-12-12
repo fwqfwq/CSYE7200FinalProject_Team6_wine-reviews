@@ -1,0 +1,12 @@
+@(results : Seq[String])
+@main("TrendyWines"){
+<div class="center">
+    <a  href="@routes.HomeController.backToMain" class="back">Back</a>
+    <h2>Here is Some Predict for Trend of Wines in Future:</h2>
+    <ul>
+        @for(result <- results){
+        <li>@result</li>
+        }
+    </ul>
+</div>
+}

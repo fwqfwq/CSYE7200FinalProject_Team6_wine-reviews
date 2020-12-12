@@ -1,0 +1,25 @@
+@()(implicit request: RequestHeader)
+@main("Predict"){
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class ="center">
+    <a  href="@routes.HomeController.backToMain" class="back">Back</a>
+    <h2>Predict a Wine by Description!</h2>
+    <form method="post" action="postPredict">
+        <label for="description">Description:</label><input type="text" name="description" id="description">
+        <br>
+<!--        <label for="maxPrice">Max Price:</label><input type="text" name="maxPrice" id="maxPrice">-->
+<!--        <br>-->
+<!--        <label for="minPrice">Min Price:</label><input type="text" name="minPrice" id="minPrice">-->
+<!--        <br>-->
+        <br>
+        <input type="submit" value="Submit" >
+    </form>
+
+</div>
+</body>
+}
+
+
