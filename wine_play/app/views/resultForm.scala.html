@@ -2,9 +2,9 @@
 @main("resultForm"){
 <div class="center">
     <a  href="@routes.HomeController.predict" class="back">Back</a>
-<h2>Predict Result:</h2>
+<h2>Prediction Result:</h2>
 <ul>
-    @for(result <- results){s
+    @for(result <- results){
     <li>@result</li>
     }
 </ul>

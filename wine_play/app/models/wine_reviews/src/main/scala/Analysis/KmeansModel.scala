@@ -1,9 +1,10 @@
 package models.wine_reviews.src.main.scala.Analysis
 
-import models.wine_reviews.src.main.scala.Data.Wine.{getWineDF, getSpark}
+import models.wine_reviews.src.main.scala.Data.Wine.{getSpark, getWineDF}
 import org.apache.spark.ml.clustering.KMeans
 import org.apache.spark.ml.evaluation.ClusteringEvaluator
 import org.apache.spark.ml.feature.FeatureHasher
+import org.apache.spark.sql.DataFrame
 
 
 object KmeansModel extends App {
@@ -17,7 +18,7 @@ object KmeansModel extends App {
     .setInputCols("country", "price", "province", "region_1", "title", "variety")
     .setOutputCol("features")
 
-  val featurized = hasher.transform(df).drop("country", "price", "province", "region_1", "title", "variety")
+  val featurized = hasher.transform(df)
   println("After Harsher: ")
   featurized.show()
 //  featurized.take(10).foreach(println)
@@ -25,10 +26,10 @@ object KmeansModel extends App {
 
 
 //   Train a k-means model
-  val kmeans = new KMeans().setK(12).setSeed(1L)
+  val kmeans = new KMeans().setK(12).setSeed(1L).setFeaturesCol("features")
   val model = kmeans.fit(featurized)
 
-  val predictions = model.transform(featurized)
+  val predictions: DataFrame = model.transform(featurized)
 
   // Evaluate clustering by computing Within Set Sum of Squared Errors.
   val evaluator = new ClusteringEvaluator()
@@ -44,6 +45,9 @@ object KmeansModel extends App {
 
 
   val loadModel = ClusteringEvaluator.load("kmeans.model")
+
+  // Save to JSON file
+  predictions.coalesce(1).write.json("csvdata/kmJSON")
 
 
 }

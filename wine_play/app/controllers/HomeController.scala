@@ -38,17 +38,29 @@ class HomeController @Inject()(val controllerComponents: ControllerComponents) e
     }.getOrElse(Redirect(routes.HomeController.predict()))
   }
 
-  def resultForm() = Action{
-    val results1 = List("a","b")
-    Ok(views.html.resultForm(results1))
-  }
   def backToMain() = Action{
     Redirect(routes.HomeController.index())
   }
-  def trendyWine() = Action{
-    val results: Seq[String] = Main.trendyWine()
-    Ok(views.html.trendyWine(results))
-  }
+//  def trendyWine() = Action{
+//
+//  }
+  def recommendation()= Action { implicit request: Request[AnyContent] =>
+  Ok(views.html.recommendation())
+}
+  def postRecommendation()=Action{ request =>
+  val postVals = request.body.asFormUrlEncoded
+  postVals.map{args =>
+    val country: Seq[String] = args("country")
+//    val points = args("points").head
+    val price = args("price").head
+    val province: Seq[String] = args("province")
+    val region_1: Seq[String] = args("region_1")
+    val title: Seq[String] = args("title")
+    val variety: Seq[String] = args("variety")
+    val results = Main.recommendation(country, price, province, region_1, title, variety)
+    Ok(views.html.recommendationResult(results))
+  }.getOrElse(Redirect(routes.HomeController.recommendation()))
+}
   def overallAnalysis() = Action{
     val results: Seq[String] = Main.overallAnalysis()
     Ok(views.html.overallAnalysis(results))

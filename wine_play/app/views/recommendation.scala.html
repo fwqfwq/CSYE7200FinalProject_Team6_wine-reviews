@@ -1,0 +1,30 @@
+@()(implicit request: RequestHeader)
+@main("recommendation"){
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class ="center">
+    <a  href="@routes.HomeController.backToMain" class="back">Back</a>
+    <h2>Predict a Wine by Description!</h2>
+    <form method="post" action="postRecommendation">
+        <label for="country">Country:</label><input type="text" name="country" id="country">
+        <br>
+        <label for="Price">Price:</label><input type="text" name="price" id="Price">
+        <br>
+        <label for="Province">Province:</label><input type="text" name="province" id="Province">
+        <br>
+        <label for="region">Region:</label><input type="text" name="region_1" id="region">
+        <br>
+        <label for="title">Title:</label><input type="text" name="title" id="title">
+        <br>
+        <label for="variety">Variety:</label><input type="text" name="variety" id="variety">
+        <br>
+        <input type="submit" value="Submit" >
+    </form>
+
+</div>
+</body>
+}
+
+

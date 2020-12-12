@@ -7,16 +7,10 @@ Team 6:
 
 ---
 
-1. The dataset consisting of 2 csv file is included in the repository 'src/main/resources'. 
+1. This is the repository only for front-end displaying. 
 2. Main functions:   
-    * Search -- SQL   
-    * Get trendy trait from description -- TF-IDF  
     * Get points(or price) prediction from TF-IDF -- RF  
-    * Without description, build recommendation system -- ?K-Means  
+    * Without description, build recommendation system -- K-Means  
     
-3. Main functions are in 'src/main/scala':   
-    >'Data':                                             
-    >>'Read': for reading csv files into RDD  
-    >>'Sql':  
-    >'Analysis':
+! All data processing progress is included in another repository: wine_reviews. 
     

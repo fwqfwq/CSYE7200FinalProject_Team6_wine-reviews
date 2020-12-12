@@ -1,0 +1,12 @@
+@(results : Seq[String])
+@main("recommendationResult"){
+<div class="center">
+    <a  href="@routes.HomeController.recommendation" class="back">Back</a>
+    <h2>Recommendation Result:</h2>
+    <ul>
+        @for(result <- results){
+        <li>@result</li>
+        }
+    </ul>
+</div>
+}
