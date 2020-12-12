@@ -95,4 +95,27 @@ object RFModelTest extends App {
   //
   //  predictions.select("prediction", "points", "predFeatures").show
 
+
+
+
+  //  s2index(Array("country", "price", "province", "region_1", "title", "variety"))
+  //
+  //  df.show()
+
+  //  val encoder = new OneHotEncoderEstimator()
+  //    .setInputCols(Array("country", "price", "province", "region_1", "title", "variety"))
+  //    .setOutputCols(Array("rCountry", "rPrice", "rProvince", "rRegion_1", "rTitle", "rVariety"))
+  ////    .setDropLast(false)
+  //  val model = encoder.fit(df)
+  //  val encoded = model.transform(df)
+  //  encoded.show(false)
+
+  //  // PCA
+  //  val pca: PCAModel = new PCA()
+  //    .setInputCol("hashedFeatures")
+  //    .setOutputCol("features")
+  //    .setK(3)
+  //    .fit(featurized)
+  //  val result = pca.transform(featurized)
+  //  result.show()
 }

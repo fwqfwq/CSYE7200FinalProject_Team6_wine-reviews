@@ -117,6 +117,7 @@ object TFIDF_RFModel {
   predictions.summary()
 
   rf.save("rf.model")
+  println("rf model saved")
 
   /**
    * Output.
